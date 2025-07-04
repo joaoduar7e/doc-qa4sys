@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Guia de Uso dos Templates de Automação</title>
+ <style>
+ body {
+ font-family: 'Arial', sans-serif;
+ line-height: 1.6;
+ margin: 0;
+ background-color: #eef2f7;
+ color: #333;
+ padding: 20px;
+ }
+ .container {
+ max-width: 900px;
+ margin: 20px auto;
+ background: #fff;
+ padding: 30px;
+ border-radius: 10px;
+ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+ }
+ h1 {
+ color: #0056b3;
+ text-align: center;
+ margin-bottom: 30px;
+ }
+ h2 {
+ color: #007bff;
+ border-bottom: 2px solid #007bff;
+ padding-bottom: 8px;
+ margin-top: 30px;
+ margin-bottom: 20px;
+ }
+ h3 {
+ color: #333;
+ margin-top: 20px;
+ margin-bottom: 15px;
+ }
+ .intro {
+ font-size: 1.1em;
+ margin-bottom: 25px;
+ text-align: center;
+ color: #555;
+ }
+ .steps ol {
+ padding-left: 25px;
+ }
+ .steps li {
+ margin-bottom: 15px;
+ line-height: 1.5;
+ }
+ .framework-section {
+ margin-bottom: 40px;
+ padding: 20px;
+ background-color: #f8f9fa;
+ border: 1px solid #dee2e6;
+ border-radius: 8px;
+ }
+ .framework-section h3 {
+ color: #0056b3;
+ margin-top: 0;
+ border-bottom: 1px dashed #0056b3;
+ padding-bottom: 5px;
+ }
+ .file-structure {
+ margin-top: 15px;
+ background-color: #e9ecef;
+ padding: 15px;
+ border-left: 4px solid #007bff;
+ border-radius: 5px;
+ font-family: 'Courier New', Courier, monospace;
+ font-size: 0.9em;
+ }
+ .file-structure div {
+ margin-bottom: 8px;
+ }
+ .file-structure .folder {
+ font-weight: bold;
+ color: #004085;
+ }
+ .file-structure .file {
+ margin-left: 25px;
+ color: #004085;
+ }
+ .file-structure .description {
+ color: #555;
+ font-style: italic;
+ margin-left: 10px;
+ }
+ code {
+ background-color: #e9ecef;
+ padding: 3px 6px;
+ border-radius: 4px;
+ font-family: 'Courier New', Courier, monospace;
+ font-size: 0.95em;
+ }
+ </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guia de Uso dos Templates de Automação</h1>
+
+        <p>Olá! Este guia rápido foi criado para ajudar você a começar a usar os templates de projetos de automação de teste que você baixou. O objetivo é facilitar a escrita e a execução de testes automatizados, mesmo que você não seja um programador.</p>
+
+        <p class="intro">Este guia irá te ajudar a entender a estrutura básica do projeto e como dar os primeiros passos para rodar seus testes.</p>
+
+        <h2>Como Começar</h2>
+        <div class="steps">
+            <ol>
+ <li><strong>Baixe e Extraia:</strong> Baixe o arquivo ZIP do template e extraia todo o conteúdo para uma pasta no seu computador.</li>
+ <li><strong>Abra em um Editor:</strong> Use um editor de código moderno (como VS Code, Sublime Text ou outro de sua preferência) para abrir a pasta onde você extraiu os arquivos.</li>
+ <li><strong>Instale as Dependências:</strong> Siga as instruções no arquivo <code>README.md</code> para instalar as bibliotecas necessárias (geralmente com um comando como <code>npm install</code> ou <code>pip install</code>).</li>
+ <li><strong>Configure a URL Base:</strong> Para que os testes saibam qual site visitar, você precisa configurar a URL principal. Procure por essa configuração nos seguintes arquivos, dependendo do seu template:
+                    <ul>
+ <li><strong>Cypress:</strong> No arquivo <code>cypress.config.ts</code>, encontre a opção <code>baseUrl</code> e troque o endereço de exemplo pela URL do seu site.</li>
+ <li><strong>Playwright:</strong> No arquivo <code>playwright.config.ts</code>, dentro da seção <code>use</code>, encontre a opção <code>baseURL</code> e troque o endereço de exemplo pela URL do seu site.</li>
+ <li><strong>Robot Framework:</strong> No arquivo <code>resources/variables.robot</code>, edite a linha que define <code>${BASE_URL}</code> para a URL do seu site.</li>
+                    </ul>
+                </li>
+                <li><strong>Explore a Estrutura:</strong> Entenda onde estão os arquivos de teste e os arquivos de "ajuda" (helpers/keywords). Veja as seções abaixo para a estrutura de cada framework.</li>
+ <li><strong>Execute os Testes:</strong> Abra o terminal (ou prompt de comando) na pasta principal do projeto. Use os comandos básicos para iniciar a execução dos testes (esses comandos estão no <code>README.md</code>).</li>
+ <li><strong>Veja os Relatórios:</strong> Após a execução, o framework irá gerar relatórios que mostram quais testes passaram e quais falharam. O <code>README.md</code> também indicará onde encontrar esses relatórios.</li>
+            </ol>
+        </div>
+
+ <section class="boas-praticas">
+ <h2>🏆 Boas Práticas</h2>
+ <p>Para que seus testes de automação sejam fáceis de entender, rápidos de rodar e simples de manter, algumas boas práticas são muito importantes:</p>
+
+ <h3>✅ Reutilização é Fundamental!</h3>
+ <p>Imagine que em vários testes você precisa fazer login no sistema ou preencher os mesmos campos de um formulário. Repetir os mesmos passos em todos os testes significa que, se algo mudar (por exemplo, o campo de login mudar de nome), você terá que corrigir essa mudança em VÁRIOS lugares. Isso dá muito trabalho e aumenta a chance de erros.</p>
+ <p>A solução é criar um "comando" (Cypress/Playwright) ou uma "Keyword" (Robot Framework) para essas ações reutilizáveis. Funciona como criar um "atalho":</p>
+ <ul>
+ <li>Você define os passos do login (digitar usuário, digitar senha, clicar em entrar) UMA VEZ em um arquivo de "ajuda".</li>
+ <li>Nos seus testes, em vez de repetir todos os passos, você apenas "chama" esse comando/keyword de login.</li>
+ </ul>
+ <p><strong>Benefício Principal:</strong> Se a tela de login mudar, você só precisa corrigir a definição do comando/keyword de login em UM lugar! Todos os testes que usam esse comando/keyword serão atualizados automaticamente. Isso economiza muito tempo e esforço na manutenção dos testes.</p>
+
+ <h3>✨ Outras Dicas Importantes:</h3>
+ <ul>
+ <li><strong>Use Seletores Estáveis:</strong> Ao identificar elementos na tela (botões, campos), prefira usar IDs (<code>#meu-id</code>), atributos <code>data-testid</code> (<code>[data-testid="botao-salvar"]</code>) ou nomes (<code>[name="username"]</code>) em vez de caminhos baseados na posição (<code>xpath</code> complexos ou CSS longos). Eles mudam menos se o layout da página for ajustado.</li>
+ <li><strong>Testes Focados:</strong> Cada teste deve verificar uma coisa específica. Evite testes muito longos que misturam muitas funcionalidades diferentes. Testes menores são mais fáceis de entender quando falham.</li>
+ <li><strong>Nomes Claros:</strong> Dê nomes descritivos aos seus testes e às suas keywords/comandos (ex: "Validar Mensagem de Erro ao Logar com Dados Inválidos", "Preencher Formulário de Cadastro"). Isso ajuda a entender o que cada parte faz sem precisar ler o código detalhado.</li>
+ <li><strong>Leia a Documentação Gerada:</strong> Os arquivos <code>README.md</code> e <code>FLUXO_DE_USO.md</code> no template contêm informações valiosas específicas do projeto gerado. Leia-os!</li>
+ </ul>
+ </section>
+
+
+
+
+
+
+
+        <h2>Entendendo a Estrutura (Para Não Técnicos)</h2>
+
+ <p>Cada template tem seus arquivos organizados de forma diferente, mas a ideia é sempre separar os testes em si das funcionalidades de "ajuda" que eles usam. Não se preocupe em entender todos os detalhes do código, foque em saber onde encontrar cada coisa:</p>
+
+        <div class="framework-section">
+            <h3>Cypress 🌲</h3>
+            <p>Estrutura de arquivos:</p>
+            <div class="file-structure">
+ <div>📁 <strong><code>cypress/</code></strong> <span class="description">- Tudo relacionado ao Cypress.</span></div>
+ <div class="file">📄 <strong><code>e2e/</code></strong> <span class="description">- **Seus testes ficam aqui.** Cada arquivo <code>.cy.ts</code> é um conjunto de testes.</span></div>
+ <div class="file">📄 <strong><code>support/</code></strong> <span class="description">- Contém os arquivos de "ajuda".</span></div>
+ <div class="file file-structure" style="margin-left: 40px;">
+ <div>📄 <strong><code>helpers.ts</code></strong> <span class="description">- Funcionalidades de ajuda menores (ex: "preencher campo").</span></div>
+ <div>📄 <strong><code>commands.ts</code></strong> <span class="description">- Combina helpers para criar "comandos" maiores e fáceis de usar (ex: "fazer login").</span></div>
+ </div>
+ <div class="file">📄 <strong><code>cypress.config.ts</code></strong> <span class="description">- Configurações gerais do Cypress. **Aqui você muda a URL base!**</span></div>
+            </div>
+ <p><strong>Em resumo:</strong> Crie ou edite seus testes em <code>cypress/e2e/</code>. As ações complexas são definidas em <code>cypress/support/</code>. Configure a URL em <code>cypress.config.ts</code>.</p>
+        </div>
+
+        <div class="framework-section">
+            <h3>Playwright 🎭</h3>
+            <p>Estrutura de arquivos:</p>
+            <div class="file-structure">
+ <div>📁 <strong><code>tests/</code></strong> <span class="description">- **Seus testes ficam aqui.** Cada arquivo <code>.spec.ts</code> é um conjunto de testes.</span></div>
+ <div>📁 <strong><code>helpers/</code></strong> <span class="description">- Onde ficam os arquivos de "ajuda".</span></div>
+ <div class="file file-structure" style="margin-left: 25px;">
+ <div>📄 <strong><code>page-helpers.ts</code></strong> <span class="description">- Contém funcionalidades de ajuda para interagir com a página de forma organizada.</span></div>
+ </div>
+ <div class="file">📄 <strong><code>playwright.config.ts</code></strong> <span class="description">- Configurações gerais do Playwright. **Aqui você muda a URL base!**</span></div>
+            </div>
+ <p><strong>Em resumo:</strong> Crie ou edite seus testes em <code>tests/</code>. As ações de interação com a página são definidas em <code>helpers/</code>. Configure a URL e navegadores em <code>playwright.config.ts</code>.</p>
+        </div>
+
+        <div class="framework-section">
+            <h3>Robot Framework 🤖</h3>
+            <p>Estrutura de arquivos:</p>
+            <div class="file-structure">
+ <div>📁 <strong><code>tests/</code></strong> <span class="description">- **Seus testes ficam aqui.** Cada arquivo <code>.robot</code> é um conjunto de testes.</span></div>
+ <div>📁 <strong><code>resources/</code></strong> <span class="description">- Onde ficam os arquivos de "ajuda" chamados Keywords.</span></div>
+ <div class="file file-structure" style="margin-left: 25px;">
+ <div>📄 <strong><code>helpers.robot</code></strong> <span class="description">- Keywords básicas (ex: "Preencher Campo", "Clicar No Elemento").</span></div>
+ <div>📄 <strong><code>common.robot</code></strong> <span class="description">- Keywords que combinam helpers para ações comuns (ex: "Fazer Login").</span></div>
+ <div>📄 <strong><code>variables.robot</code></strong> <span class="description">- Onde você define informações que mudam pouco. **Aqui você muda a URL base!**</span></div>
+ </div>
+            </div>
+ <p><strong>Em resumo:</strong> Crie ou edite seus testes em <code>tests/</code>. As ações reutilizáveis são definidas como Keywords em <code>resources/</code>. Configure a URL e outras variáveis em <code>variables.robot</code>.</p>
+        </div>
+
+        <h2>Próximos Passos</h2>
+        <ul>
+            <li>Leia o arquivo <code>README.md</code> na pasta do projeto baixado para instruções mais detalhadas sobre instalação e execução.</li>
+            <li>Se quiser entender mais a fundo como usar os helpers/commands/keywords, veja o arquivo <code>FLUXO_DE_USO.md</code>.</li>
+            <li>Comece a escrever seus próprios testes nos arquivos <code>.cy.ts</code>, <code>.spec.ts</code> ou <code>.robot</code> na pasta de testes! Use os exemplos existentes como base.</li>
+        </ul>
+        
+        <p>Esperamos que estes templates ajudem você a automatizar seus testes de forma mais eficiente!</p>
+
+    </div>
+</body>
+</html>
